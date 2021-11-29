@@ -12,6 +12,7 @@ compData::Cad::Cad(void)
 	this->oDs = gcnew System::Data::DataSet();
 
 	this->oCmd->CommandType = System::Data::CommandType::Text;
+	this->oCnx->Open();//on évite d'ouvrir / fermer la connexion a chaque req
 }
 System::Data::DataSet^ compData::Cad::getRows(System::String^ sSql, System::String^ sDataTableName)
 {
@@ -20,15 +21,18 @@ System::Data::DataSet^ compData::Cad::getRows(System::String^ sSql, System::Stri
 	this->oCmd->CommandText = this->sSql;
 	this->oDA->SelectCommand = this->oCmd;
 	this->oDA->Fill(this->oDs, sDataTableName);
-
 	return this->oDs;
 }
 void compData::Cad::actionRows(System::String^ sSql)
 {
 	this->sSql = sSql;
 	this->oCmd->CommandText = this->sSql;
-	this->oDA->SelectCommand = this->oCmd;
-	this->oCnx->Open();
 	this->oCmd->ExecuteNonQuery();
-	this->oCnx->Close();
+}
+int compData::Cad::insert(System::String^ sSql)
+{
+	this->sSql = sSql;
+	this->oCmd->CommandText = this->sSql;
+	//this->oCmd->Prepare// ça serait la vraie bonne méthode mais trop complexe pr vous
+	return System::Convert::ToInt32(this->oCmd->ExecuteScalar());
 }

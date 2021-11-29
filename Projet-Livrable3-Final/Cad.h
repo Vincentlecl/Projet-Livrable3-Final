@@ -15,5 +15,6 @@ namespace compData
 		Cad(void);
 		System::Data::DataSet^ getRows(System::String^, System::String^);
 		void actionRows(System::String^);
+		int insert(System::String^);
 	};
 }

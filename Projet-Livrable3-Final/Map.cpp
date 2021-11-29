@@ -2,8 +2,13 @@
 
 System::String^ compMappage::Map::Select(void)
 {
-	
-	return "select Personne.ID_Personne,Personnel.ID_Personnel,Adresse.ID_Adresse,Nom,Prenom,DateEmbauche,ID_Personnel_Superieur,Ville,CP,Ligne from (((Personne join Personnel on Personne.ID_Personne = Personnel.ID_Personne) join Habite on Personnel.ID_Personnel = Habite.ID_Personnel) join Adresse on Habite.ID_Adresse = Adresse.ID_Adresse) where (BoolSuppr = 'False');";
+	System::String^ str = "";
+	str += "select Personne.ID_Personne,Personnel.ID_Personnel,Adresse.ID_Adresse,Nom,Prenom,DateEmbauche,ID_Personnel_Superieur,Ville,CP,Ligne";
+	str +=" from Personne";
+	str += " join Personnel on Personne.ID_Personne = Personnel.ID_Personne";
+	str += " join Adresse on Personnel.ID_Adresse = Adresse.ID_Adresse";
+	str += " where BoolSuppr = 'False'";//PROPRE NEST-CE PAS ? oui bien plus
+	return str;
 }
 System::String^ compMappage::Map::Insert(void)
 {
